@@ -7,8 +7,7 @@ import cv2
 
 # D:/Program_file/Anaconda/Scripts/activate
 # conda activate MyEnv
-# Anaconda/envs/MyEnv/python.exe -m streamlit run d:/Deep_Project/Marine_ISR/stram_dash.py
-
+# D:/Program_file/Anaconda/envs/MyEnv/python.exe -m streamlit run d:/Deep_Project/Marine_ISR/stram_dash.py   
 # "wide" layout uses full browser width.
 st.set_page_config(layout="wide")
 
@@ -34,7 +33,10 @@ if uploaded_file is not None:
 
     # Send Image to Backend (FastAPI)
     try:
-        files = {"file": uploaded_file.getvalue()}
+        files = {"file":(uploaded_file.name,
+        uploaded_file.getvalue(),
+        uploaded_file.type)}
+
         response = requests.post("http://127.0.0.1:8000/detect/", files=files)
 
         if response.status_code == 200:
@@ -83,8 +85,9 @@ if uploaded_file is not None:
 
         else:
             # Backend responded but returned error
-            st.error("Detection failed. Check backend server.")
-
+            st.error(f"Backend Error {response.status_code}")
+            st.write(response.text)
+            
     # Backend unreachable or network issue
     except Exception:
         st.error("Cannot connect to backend.")
