@@ -1,4 +1,4 @@
-# Marine Intelligence Guard: AI-Enabled Edge System
+# Marine Intelligence Guard: AI-Enabled ISR System
 
 Streamlite Frontend
 
